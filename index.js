@@ -1,16 +1,21 @@
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose();
 const { body, validationResult } = require('express-validator');
+const questions = require('./routes/questions/questions')
+
 const app = express()
 
 app.use(express.json())
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
+app.use('/questions', questions)
 
 app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 PORT = 3000 || process.env.PORT
+
+
 
 app.post('/', 
     // check if type is valid and if post req is not empty
@@ -18,7 +23,7 @@ app.post('/',
 
     // remove extra white space with regex
     body("query").customSanitizer(value => {
-        return value.replace(/\s+/gm, " ").toLowerCase()
+        return value.replace(/\s+/gm, " ")
     }),
 
     // put a cap so users can not abuse server req with long queries
@@ -55,6 +60,7 @@ app.post('/',
     });
 
 app.post('/', (req, res) => {
+
     let tb = []
     
     let db = new sqlite3.Database('./db/chinook.db', (err)=>{
