@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="#">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>Sql Whip</title>
+    </head>
+    <body >
+        <div class="modal fade" id="showDiagram" tabindex="-1" role="dialog" aria-labelledby="showDiagramTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Database Diagram</h5>
+                    </div>
+                    <div class="modal-body p-1">
+                        <img class="w-100 sql-diagram" src="/img/chinook-diagram.jpg" alt="db diagram">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="alertResults" tabindex="-1" role="dialog" aria-labelledby="alertResultsTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title modal-title-results">Modal title</h5>
+                    </div>
+                    <div class="modal-body modal-body-results">...</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #520dc2;">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="/" style="font-size:25px; font-weight: 600;">SQLWhip</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" ></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav text-center">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#showDiagram">SQL Diagram</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="box" style="height: calc(100vh - 63.5); margin-top:70px;">
+            <div class="container-fluid h-70 pt-3 pb-4" style="background-color: #8540f5;">
+                <div class="row mb-2 text-center">
+                    <div class="col-sm-4">
+                        <a class="btn btn-primary fetch fetch-prev">Prev</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a class="btn btn-primary fetch fetch-init">Run (Ctrl+Enter)</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a class="btn btn-primary fetch fetch-next">Next</a>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-7 col-lg-7 col-xl-6">
+                        <div class="row">
+                            <textarea class="w-100 input-query p-2" placeholder="// Write Query Here&#10;&#10;// CTRL+ENTER To Query"></textarea>
+                        </div>
+                        <div class="row" >
+                            <div class="w-100 display-query p-3 my-table"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-4 col-xl-3">
+                        <div class="row ">
+                            <div class="w-100 questions">
+                                <div class="card w-100">
+                                    <div class="card-body text-center">
+                                    <h5 class="card-title">Problem 1</h5>
+                                    <p class="card-text">Find the customer's first name and last name who registered yahoo as their email address</p>
+                                    <a onclick="testQuery(1)" class="btn btn-primary" data-toggle="modal" data-target="#alertResults">Submit</a>
+                                    </div>
+                                </div>
+                                <div class="card w-100 ">
+                                    <div class="card-body text-center">
+                                    <h5 class="card-title">Problem 2</h5>
+                                    <p class="card-text">Count how many customer's company names are unknown. Rename the single column to be countNull</p>
+                                    <a onclick="testQuery(2)" class="btn btn-primary" data-toggle="modal" data-target="#alertResults">Submit</a>
+                                    </div>
+                                </div>
+                                <div class="card w-100 ">
+                                    <div class="card-body text-center">
+                                    <h5 class="card-title">Problem 3</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a onclick="testQuery(3)" class="btn btn-primary" data-toggle="modal" data-target="#alertResults">Submit</a>
+                                    </div>
+                                </div>
+                                <div class="card w-100 ">
+                                    <div class="card-body text-center">
+                                    <h5 class="card-title">Problem 4</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a onclick="testQuery(4)" class="btn btn-primary" data-toggle="modal" data-target="#alertResults">Submit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

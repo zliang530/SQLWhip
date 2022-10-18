@@ -1,0 +1,1 @@
+It can have services that represent business objects and can run queries on the database.

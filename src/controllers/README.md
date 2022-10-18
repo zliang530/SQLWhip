@@ -1,0 +1,1 @@
+Controllers are the methods or callback for each route.

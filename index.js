@@ -1,21 +1,18 @@
 const express = require('express')
-const sqlite3 = require('sqlite3').verbose();
-const { body, validationResult } = require('express-validator');
-const questions = require('./routes/questions/questions')
-
+const {body, validationResult} = require('express-validator');
 const app = express()
 
+const questions = require('./src/routes/questions/questions')
+const resQuery = require("./src/controllers/index.controller")
+
 app.use(express.json())
-app.use(express.static('public'))
+app.use(express.static('src/views/public'))
 app.use(express.urlencoded({ extended: true }));
-app.use('/questions', questions)
 
 app.set('view engine', 'ejs')
-app.set('views', 'views')
+app.set('views', 'src/views')
 
 PORT = 3000 || process.env.PORT
-
-
 
 app.post('/', 
     // check if type is valid and if post req is not empty
@@ -34,12 +31,12 @@ app.post('/',
 
     // check if query contains certain restricted keywords because db can not be modified
     body("query").custom((value) => {
-        const subStr = ['alter', 'create', 'drop', 'update', 'insert']
+        const subStr = ['alter', 'create', 'drop', 'update', 'insert', 'backup']
         let valid = true
-        console.log(value)
+
         subStr.forEach(str => {
             let regex = new RegExp(`(?<=\\s|^)${str}(?=\\s|;|$)+`,'g')
-            if (regex.test(value)){
+            if (regex.test(value.toLowerCase())){
                 valid = false;
             }   
         })
@@ -55,37 +52,20 @@ app.post('/',
             res.json({rows:[]})
             return;
         }
-
         next();
     });
 
-app.post('/', (req, res) => {
+app.use('/questions', questions)
 
-    let tb = []
-    
-    let db = new sqlite3.Database('./db/chinook.db', (err)=>{
-        if (err) {
-            throw err
-        }
-        console.log('Connected to the in-memory SQlite database.');
-    });
+app.post('/', resQuery)
 
-    db.serialize(() => {
-        db.each(req.body.query, [], function(err, row){
-            if (typeof row === 'undefined') {
-                return
-            }
-            tb.push(row)
-        }).close((err) => {
-            console.log('Close the database connection.');
-            res.json({rows: tb}) 
-        });
-    })
-})
 app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
+app.get('*', (req, res)=>{
+    res.status(400).render('error/error.400.ejs')
+})
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}...`)
 })
