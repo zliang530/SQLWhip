@@ -1,8 +1,9 @@
-const textarea = document.querySelector('.input-query');
+const textarea = document.querySelector('.input-query')
 const myTable = document.querySelector(".my-table")
 const fetchInit = document.querySelector(".fetch-init")
 const fetchNext = document.querySelector(".fetch-next")
 const fetchPrev = document.querySelector(".fetch-prev")
+var sql = textarea.value
 let offset = 0;
 
 
@@ -103,7 +104,7 @@ async function fetchData(){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      query: textarea.value,
+      query: sql,
       offset
     })
   }); 
@@ -116,12 +117,15 @@ async function fetchData(){
 
 document.addEventListener('keydown', (event) => {
   if(event.ctrlKey && event.key == "Enter") {
-    fetchData()
+    offset=0
+    sql = textarea.value
+    fetchData(offset)
   }
 });
 
 fetchInit.addEventListener('click', ()=> {
   offset=0
+  sql = textarea.value
   fetchData(offset)
 })
 
@@ -131,6 +135,6 @@ fetchNext.addEventListener('click', ()=> {
 })
 
 fetchPrev.addEventListener('click', ()=> {
-  offset-=1
-  fetchData(offset)
+    offset-=1
+    fetchData(offset)
 })
