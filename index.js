@@ -35,7 +35,7 @@ app.post('/',
         let valid = true
 
         subStr.forEach(str => {
-            let regex = new RegExp(`(?<=\\s|^)${str}(?=\\s|;|$|))+`,'g')
+            let regex = new RegExp(`(?<=\\s|^)${str}(?=\\s|;|$)+`,'g')
             if (regex.test(value.toLowerCase())){
                 valid = false;
             }   

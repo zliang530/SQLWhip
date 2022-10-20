@@ -64,6 +64,8 @@ function populateTable(rowsData){
     p.classList = "warning"
     p.textContent="Please try again with another query..."
     myTable.appendChild(p)
+
+    offset = offset-1 // to re-adjust the fetchNext click callack where offset adds one
   }
 }
 
@@ -113,6 +115,7 @@ async function fetchData(){
   const rowsData = json.rows;
   
   populateTable(rowsData)
+  return rowsData.length
 }
 
 document.addEventListener('keydown', (event) => {
@@ -127,14 +130,19 @@ fetchInit.addEventListener('click', ()=> {
   offset=0
   sql = textarea.value
   fetchData(offset)
+  console.log(offset)
 })
 
 fetchNext.addEventListener('click', ()=> {
   offset+=1
   fetchData(offset)
+  console.log(offset)
 })
 
 fetchPrev.addEventListener('click', ()=> {
-    offset-=1
-    fetchData(offset)
+    if(offset-1 >= 0){
+      offset-=1
+      fetchData(offset)
+    }
+    console.log(offset)
 })
